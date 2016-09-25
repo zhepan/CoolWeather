@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.hank.coolweather.R;
+import com.example.hank.coolweather.service.AutoUpdateService;
 import com.example.hank.coolweather.util.HttpCallbackListener;
 import com.example.hank.coolweather.util.HttpUtil;
 import com.example.hank.coolweather.util.Utility;
@@ -72,6 +73,10 @@ public class WeatherActivity extends Activity {
 
         String cityCode = getIntent().getStringExtra("city_code");
         queryWeather(cityCode);
+
+        /* Start auto update service */
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     private void queryWeather(String cityCodeFromIntent) {
@@ -81,7 +86,7 @@ public class WeatherActivity extends Activity {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(this);
 
-             cityCode = pref.getString("city_code", "");
+            cityCode = pref.getString("city_code", "");
         }
 
         if (!TextUtils.isEmpty(cityCode)) {
